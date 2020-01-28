@@ -15,4 +15,5 @@ for ct, size in enumerate(Nsizes):
 plt.yscale('log')
 plt.ylabel('Log ( Time Taken for different n )')
 plt.legend()
-plt.show()
+# plt.show()
+plt.savefig('Log(Time)-vs-N-Graph')
