@@ -1,14 +1,10 @@
-read -p 'n_size=' n_size
-read -p 's_size=' s_size
-echo $n_size
-echo $s_size
-g++ 1.cpp
-./a.out $n_size
-g++ 1opt1.cpp
-./a.out $n_size
-g++ 1opt2.cpp
-./a.out $n_size $s_size
-g++ 1opt2swap.cpp
-./a.out $n_size $s_size
-g++ 1opt3.cpp
-./a.out $n_size
+g++ opt2.cpp
+./a.out 32 64 >> opt2_s_64.txt
+./a.out 64 64 >> opt2_s_64.txt
+./a.out 128 64 >> opt2_s_64.txt
+./a.out 256 64 >> opt2_s_64.txt
+./a.out 512 64 >> opt2_s_64.txt
+./a.out 1024 64 >> opt2_s_64.txt
+./a.out 2048 64 >> opt2_s_64.txt
+./a.out 4096 64 >> opt2_s_64.txt
+./a.out 8192 64 >> opt2_s_64.txt
