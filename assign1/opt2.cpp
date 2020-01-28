@@ -38,11 +38,28 @@ int main(int argc, char *argv[]){
 		}
 	}
 	int q=n/s;
+
+	//normal optimisation 2 code
+	// for(int x=0;x<q;x++){
+	// 	for(int y=0;y<q;y++){
+	// 		for(int z=0;z<q;z++){
+	// 			for(int i=0;i<s;i++){
+	// 				for(int j=0;j<s;j++){
+	// 					for(int k=0;k<s;k++){
+	// 						c[(n*x+ y)*s + (n*i + j)] += a[(x*n + z)*s + (n*i + k)]*b[(z*n + y)*s + (n*k + j)];
+	// 					}
+	// 				}
+	// 			}
+	// 		}
+	// 	}	
+	// }
+
 	int iter_x, iter_z, iter_i, iter_k, xic = 0, yc, zc, zic;
 	int tmp1, tmp2, tmp3, tmp4, tmp5, tmp6, tmp7, tmp8, tmp9;
 	int p = n*s;
 	iter_x = 0;
 	auto start = chrono::high_resolution_clock::now();
+	//code further optimised to reduce number of multiplications
 	for(int x=0;x<q;x++){
 		// xic = iter_x*s;
 		iter_z=0;

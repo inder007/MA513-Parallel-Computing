@@ -40,6 +40,7 @@ void rec(int i1, int j1, int i2, int j2, int i3, int j3, int s){
 		rec(i1p, j1, i2, j2p, i3p, j3p, p);
 		rec(i1p, j1p, i2p, j2p, i3p, j3p, p);
 
+		//normal recursion code
 		// rec(i1, j1, i2, j2, i3, j3, p); 
 		// rec(i1, j1+p, i2+p, j2, i3, j3, p);
 		// rec(i1, j1, i2, j2+p, i3, j3+p, p);

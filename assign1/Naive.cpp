@@ -33,8 +33,19 @@ int main(int argc, char *argv[]){
 			b[n*i+j] = i+j;
 		}
 	}
+
+	//normal code
+	// for(int i=0;i<n;i++){
+ //    	for(int j=0;j<n;j++){
+ //    		for(int k=0;k<n;k++){
+ //    			c[n*i+j] += a[n*i + k]*b[n*k + j];
+ //    		}
+ //    	}
+ //    }	
+
 	auto start = chrono::high_resolution_clock::now();
 	int iter_i=0, iter_k=0;
+	//optimised code by reducing number of multiplications
     for(int i=0;i<n;i++){
     	for(int j=0;j<n;j++){
     		iter_k = 0;

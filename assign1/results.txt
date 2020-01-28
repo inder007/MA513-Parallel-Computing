@@ -1,0 +1,72 @@
+results of Naive with  32
+Naive: Time taken by program is : 0.000223 sec
+results of opt1 with  32
+Opt1: Time taken by program is : 0.000186 sec
+results of opt2 with  32  and  32
+Opt2_swap: Time taken by program is : 0.000194 sec
+results of opt3 with  32
+Opt3: Time taken by program is : 0.000461 sec
+results of Naive with  64
+Naive: Time taken by program is : 0.001749 sec
+results of opt1 with  64
+Opt1: Time taken by program is : 0.001451 sec
+results of opt2 with  64  and  32
+Opt2_swap: Time taken by program is : 0.001511 sec
+results of opt3 with  64
+Opt3: Time taken by program is : 0.003732 sec
+results of Naive with  128
+Naive: Time taken by program is : 0.017780 sec
+results of opt1 with  128
+Opt1: Time taken by program is : 0.011352 sec
+results of opt2 with  128  and  32
+Opt2_swap: Time taken by program is : 0.013084 sec
+results of opt3 with  128
+Opt3: Time taken by program is : 0.031031 sec
+results of Naive with  256
+Naive: Time taken by program is : 0.142042 sec
+results of opt1 with  256
+Opt1: Time taken by program is : 0.091328 sec
+results of opt2 with  256  and  32
+Opt2_swap: Time taken by program is : 0.093948 sec
+results of opt3 with  256
+Opt3: Time taken by program is : 0.237299 sec
+results of Naive with  512
+Naive: Time taken by program is : 1.388570 sec
+results of opt1 with  512
+Opt1: Time taken by program is : 0.708196 sec
+results of opt2 with  512  and  32
+Opt2_swap: Time taken by program is : 0.742125 sec
+results of opt3 with  512
+Opt3: Time taken by program is : 1.891817 sec
+results of Naive with  1024
+Naive: Time taken by program is : 24.969940 sec
+results of opt1 with  1024
+Opt1: Time taken by program is : 5.667843 sec
+results of opt2 with  1024  and  32
+Opt2_swap: Time taken by program is : 5.950698 sec
+results of opt3 with  1024
+Opt3: Time taken by program is : 15.196035 sec
+results of Naive with  2048
+Naive: Time taken by program is : 254.911866 sec
+results of opt1 with  2048
+Opt1: Time taken by program is : 45.265446 sec
+results of opt2 with  2048  and  32
+Opt2_swap: Time taken by program is : 47.896635 sec
+results of opt3 with  2048
+Opt3: Time taken by program is : 122.090300 sec
+results of Naive with  4096
+Naive: Time taken by program is : 2233.643528 sec
+results of opt1 with  4096
+Opt1: Time taken by program is : 362.500027 sec
+results of opt2 with  4096  and  32
+Opt2_swap: Time taken by program is : 391.200087 sec
+results of opt3 with  4096
+Opt3: Time taken by program is : 973.819655 sec
+results of Naive with  8192
+Naive: Time taken by program is : 18600.950484 sec
+results of opt1 with  8192
+Opt1: Time taken by program is : 2914.189976 sec
+results of opt2 with  8192  and  32
+Opt2_swap: Time taken by program is : 3304.406717 sec
+results of opt3 with  8192
+Opt3: Time taken by program is : 7894.428863 sec
