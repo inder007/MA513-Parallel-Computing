@@ -6,14 +6,27 @@ Opt1Results = [0.000186, 0.001451, 0.011352, 0.091328, 0.708196, 5.667843, 45.26
 Opt2Results = [0.000194, 0.001511, 0.013084, 0.093948, 0.742125, 5.950698, 47.896635, 391.200087, 3304.406717]
 Opt3Results = [0.000461, 0.003732, 0.031031, 0.237299, 1.891817, 15.196035, 122.090300, 973.819655, 7894.428863]
 
-x = [1,2,3,4]
-my_xticks = ['Naive', 'Opt-1', 'OPt-2', 'Opt-3']
-plt.xticks(x, my_xticks)
-for ct, size in enumerate(Nsizes):
-	y = [NaiveResults[ct], Opt1Results[ct], Opt2Results[ct], Opt3Results[ct]]
-	plt.plot(x,y,label = size, marker='o', markersize=2)
+plt.plot(Nsizes, NaiveResults, label = 'Naive', marker='o', markersize = 2)
+plt.plot(Nsizes, Opt1Results, label = 'Opt-1', marker='o', markersize = 2)
+plt.plot(Nsizes, Opt2Results, label = 'Opt-2', marker='o', markersize = 2)
+plt.plot(Nsizes, Opt3Results, label = 'Opt-3', marker='o', markersize = 2)
 plt.yscale('log')
-plt.ylabel('Log ( Time Taken for different n )')
+plt.xscale('log')
+plt.xlabel('log(n)')
+# plt.xlabel('N')
+plt.ylabel('log(Time Taken)')
 plt.legend()
+plt.savefig('Log(Time)-vs-Log(N)-Graph')
 # plt.show()
-plt.savefig('Log(Time)-vs-N-Graph')
+
+# x = [1,2,3,4]
+# my_xticks = ['Naive', 'Opt-1', 'OPt-2', 'Opt-3']
+# plt.xticks(x, my_xticks)
+# for ct, size in enumerate(Nsizes):
+# 	y = [NaiveResults[ct], Opt1Results[ct], Opt2Results[ct], Opt3Results[ct]]
+# 	plt.plot(x,y,label = size, marker='o', markersize=2)
+# plt.yscale('log')
+# plt.ylabel('Log ( Time Taken for different n )')
+# plt.legend()
+# plt.show()
+# plt.savefig('Log(Time)-vs-N-Graph')
