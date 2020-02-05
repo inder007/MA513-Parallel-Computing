@@ -1,45 +1,37 @@
-**Edit a file, create a new file, and clone from Bitbucket in under 2 minutes**
+# MA 513 Parallel Computing Assignments
 
-When you're done, you can delete the content in this README and update the file with details for others getting started with your repository.
-
-*We recommend that you open this README in another tab as you perform the tasks below. You can [watch our video](https://youtu.be/0ocf7u76WSo) for a full demo of all the steps in this tutorial. Open the video in a new tab to avoid leaving Bitbucket.*
+This repository contains assignments done for MA 513 course.
 
 ---
 
-## Edit a file
+## Assignment 1
 
-You’ll start by editing this README file to learn how to edit a file in Bitbucket.
+To Study the effect of cache. This folder contains following folders and files:
 
-1. Click **Source** on the left side.
-2. Click the README.md link from the list of files.
-3. Click the **Edit** button.
-4. Delete the following text: *Delete this line to make a change to the README from Bitbucket.*
-5. After making your change, click **Commit** and then **Commit** again in the dialog. The commit page will open and you’ll see the change you just made.
-6. Go back to the **Source** page.
+1. **Scripts&Results**: This folder contains various scripts to get the results, and hence scripts to get the graphs.
+2. **Naive.cpp, opt1.cpp, opt2.cpp, opt3.cpp,** and **Theoretical_Calculations.cpp** are files to compute Naive algo, optimisation 1, optimisation 2, optimisation 3 and to theoretical calculations respectively.
+3. **allinone.cpp** contains all the algorithms where each algorithm is present as a function.
+4. **MA513-assign1-report.pdf** is the final report for assignment 1.
 
 ---
 
-## Create a file
+## Assignment 2
 
-Next, you’ll add a new file to this repository.
+This is assignment was to get familiar with the MPI syntax. It contains following files:
 
-1. Click the **New file** button at the top of the **Source** page.
-2. Give the file a filename of **contributors.txt**.
-3. Enter your name in the empty file space.
-4. Click **Commit** and then **Commit** again in the dialog.
-5. Go back to the **Source** page.
+1. **helloworld.c**
+2. **deadlocktry.c**
 
-Before you move on, go ahead and explore the repository. You've already seen the **Source** page, but check out the **Commits**, **Branches**, and **Settings** pages.
 
 ---
 
-## Clone a repository
+## Assignment 3
 
-Use these steps to clone from SourceTree, our client for using the repository command-line free. Cloning allows you to work on your files locally. If you don't yet have SourceTree, [download and install first](https://www.sourcetreeapp.com/). If you prefer to clone from the command line, see [Clone a repository](https://confluence.atlassian.com/x/4whODQ).
+To implement addition of numbers through various parallel methods and compare the results among those. This folder contains following files:
 
-1. You’ll see the clone button under the **Source** heading. Click that button.
-2. Now click **Check out in SourceTree**. You may need to create a SourceTree account or log in.
-3. When you see the **Clone New** dialog in SourceTree, update the destination path and name if you’d like to and then click **Clone**.
-4. Open the directory you just created to see your repository’s files.
+1. **addNumbersNaive.c** - Conatins code to add numbers where P0 first sends n/p items to each processor, then each PE adds n/p items, finally each PE sends partial sum to P0 which adds all these elements and return the sum.
+2. **addNumbersRecursive.c** - Contains code to add numbers where the distribution and collection of numbers is done hierarchially as discussed in class.
+3. **addNumersReduce.c** - Contains code to add numbers using inbuilt MPI_reduce to compute partial sum.
 
-Now that you're more familiar with your Bitbucket repository, go ahead and add a new file locally. You can [push your change back to Bitbucket with SourceTree](https://confluence.atlassian.com/x/iqyBMg), or you can [add, commit,](https://confluence.atlassian.com/x/8QhODQ) and [push from the command line](https://confluence.atlassian.com/x/NQ0zDQ).
+
+---
