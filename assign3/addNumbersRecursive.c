@@ -65,6 +65,8 @@ int main(int argc, char** argv){
 
 	}
 
+	double t1, t2, pt, time;
+	t1 = MPI_Wtime();
 	if(my_id == root_process){
 		for(int i=0;i<no_per_process;i++){
 			sum+=arr[i];
@@ -78,7 +80,6 @@ int main(int argc, char** argv){
 			templevel++;
 			sum += partial_sum;
 		}
-			printf("%d\n", sum);
 	}	
 	else{
 		int partial_sum=0;
@@ -100,6 +101,14 @@ int main(int argc, char** argv){
 		}
 		// printf("%d sending to %d\n",my_id, my_id -(1<<tl) );
         MPI_Send(&partial_sum, 1, MPI_INT, my_id-(1<<tl), 0, MPI_COMM_WORLD);
+	}
+
+	t2 = MPI_Wtime();
+	pt = t2 - t1;
+	MPI_Reduce(&pt, &time, 1, MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD);
+	if(my_id == root_process){
+		printf("%d\n", sum);
+		printf("Time elapsed is %lf \n", time);
 	}
 	MPI_Finalize();
 	return 0;

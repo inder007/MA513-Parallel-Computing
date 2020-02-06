@@ -63,7 +63,7 @@ int main(int argc, char** argv){
 	pt = t2 - t1;
 	MPI_Reduce(&pt, &time, 1, MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD);
 	if(my_id == root_process){
-		printf("Time elapsed is %f", time);
+		printf("Time elapsed is %lf \n", time);
 	}
 	MPI_Finalize();
 	return 0;

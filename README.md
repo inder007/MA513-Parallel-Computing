@@ -20,8 +20,9 @@ To Study the effect of cache. This folder contains following folders and files:
 This is assignment was to get familiar with the MPI syntax. It contains following files:
 
 1. **helloworld.c**
-2. **deadlocktry.c**
-
+2. **blockingAsyncMPI.c**
+3. **blockingSynchMPI.c**
+4. **unblockingSendReceive.c**
 
 ---
 

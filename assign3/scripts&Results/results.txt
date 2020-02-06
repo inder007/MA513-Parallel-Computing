@@ -1,0 +1,4 @@
+N:  16
+P:  2
+136
+Time elapsed is 0.000103 
