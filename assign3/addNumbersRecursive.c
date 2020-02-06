@@ -5,12 +5,12 @@
 int main(int argc, char** argv){
 	int my_id, size, n, no_per_process, sum=0, levels=0;
 	MPI_Status status;
-	int arr[1000];
-	int arr1[1000];
 	MPI_Init(&argc, &argv);
 	MPI_Comm_rank(MPI_COMM_WORLD, &my_id);
 	MPI_Comm_size(MPI_COMM_WORLD, &size);
 	n=atoi(argv[1]);
+	int* arr = (int*)malloc(sizeof(int)*n);
+
 	no_per_process = n/size;
 	int r=size;
 	while(r!=0){
@@ -48,7 +48,7 @@ int main(int argc, char** argv){
 		}
 		get_level = levels - get_level;
 		// printf("id: %d, level: %d\n",my_id, get_level );
-		MPI_Recv(arr1,n/(1<<(get_level)), MPI_INT, MPI_ANY_SOURCE, 0, MPI_COMM_WORLD, &status);
+		MPI_Recv(arr,n/(1<<(get_level)), MPI_INT, MPI_ANY_SOURCE, 0, MPI_COMM_WORLD, &status);
 		// printf("id: %d, level: %d\n",my_id, get_level );
 
 		int start = n/(1<<(get_level));
@@ -57,7 +57,7 @@ int main(int argc, char** argv){
 			temp--;
 			start = start>>1;
         	// printf("%d sending to %d\n", my_id, my_id + (1<<temp));
-        	MPI_Send(&arr1[start], start, MPI_INT, my_id+(1<<temp), 0, MPI_COMM_WORLD);
+        	MPI_Send(&arr[start], start, MPI_INT, my_id+(1<<temp), 0, MPI_COMM_WORLD);
 			// get_level++;
 			// temp--;
 		}
@@ -65,6 +65,8 @@ int main(int argc, char** argv){
 
 	}
 
+	MPI_Barrier(MPI_COMM_WORLD);
+	
 	double t1, t2, pt, time;
 	t1 = MPI_Wtime();
 	if(my_id == root_process){
@@ -84,7 +86,7 @@ int main(int argc, char** argv){
 	else{
 		int partial_sum=0;
 		for(int i=0;i<no_per_process;i++){
-			partial_sum+=arr1[i];
+			partial_sum+=arr[i];
 		}
 		int id = my_id;
 		int templevel=0;
@@ -107,8 +109,9 @@ int main(int argc, char** argv){
 	pt = t2 - t1;
 	MPI_Reduce(&pt, &time, 1, MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD);
 	if(my_id == root_process){
-		printf("%d\n", sum);
-		printf("Time elapsed is %lf \n", time);
+		// printf("%d\n", sum);
+		// printf("Time elapsed is %lf \n", time);
+		printf("%lf\n", time);
 	}
 	MPI_Finalize();
 	return 0;

@@ -7,8 +7,10 @@ int main(int argc, char** argv){
 	MPI_Status status;
 	// printf("please enter the number of numbers to sum: ");
  //    scanf("%i", &n);
-	int arr[1000];
+	// int arr[1000];
 	n=atoi(argv[1]);
+	int* arr = (int*)malloc(sizeof(int)*n);
+
 	// printf("%d\n", n);
 	// int arr1[1000];
 	MPI_Init(&argc, &argv);
@@ -32,11 +34,12 @@ int main(int argc, char** argv){
         
 	}
 	else{
-		MPI_Recv(&arr, no_per_process, MPI_INT, root_process, 0, MPI_COMM_WORLD, &status);
+		MPI_Recv(arr, no_per_process, MPI_INT, root_process, 0, MPI_COMM_WORLD, &status);
 		// for(int i=0;i<no_per_process;i++){
   //       	partial_sum += arr1[i];
   //       }
 	}
+	MPI_Barrier(MPI_COMM_WORLD);
 
 	double t1, t2, pt, time;
 	t1 = MPI_Wtime();
@@ -52,8 +55,9 @@ int main(int argc, char** argv){
 	MPI_Reduce(&pt, &time, 1, MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD);
 
     if(my_id == 0){
-    	printf("Total Sum: %d\n", sum);
-		printf("Time elapsed is %lf \n", time);
+  //   	printf("Total Sum: %d\n", sum);
+		// printf("Time elapsed is %lf \n", time);
+		printf("%lf\n", time);
     }
     MPI_Finalize();
 	return 0;
