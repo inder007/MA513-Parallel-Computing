@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FILE="results2.txt"
+FILE="results3.txt"
 
 # echo "N: " $1 >> $FILE
 echo "P:" $1 >> $FILE
@@ -13,6 +13,7 @@ do
 	# echo $((1<<i))
 	mpiexec -n $1 ./a.out $((1<<i)) >> $FILE
 done
+
 
 echo "" >> $FILE
 echo "Add Numbers Recursive" >> $FILE
@@ -33,6 +34,7 @@ mpicc ../addNumersReduce.c
 
 for i in {17..29}
 do
+	# echo $Val >> $FILE
 	# echo $((1<<i))
 	mpiexec -n $1 ./a.out $((1<<i)) >> $FILE
 done

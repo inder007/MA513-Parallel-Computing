@@ -34,10 +34,9 @@ int main(int argc, char** argv){
 		MPI_Recv(arr, no_per_process, MPI_INT, root_process, 0, MPI_COMM_WORLD, &status);
 	}
 
+	double t1, t2, pt, time;
 	MPI_Barrier(MPI_COMM_WORLD);
 	
-	
-	double t1, t2, pt, time;
 	t1 = MPI_Wtime();
 	if(my_id == root_process){
 		for(int i=0;i<no_per_process;i++){

@@ -11,6 +11,7 @@ int main(int argc, char** argv){
 	n=atoi(argv[1]);
 	int* arr = (int*)malloc(sizeof(int)*n);
 
+	int partial_sum=0, templevel=0, id, tl, psum;
 	no_per_process = n/size;
 	int r=size;
 	while(r!=0){
@@ -63,40 +64,42 @@ int main(int argc, char** argv){
 		}
 		// printf("%d %d %d\n",arr1[0], arr1[1], my_id );
 
+		id = my_id;
+		templevel=0;
+		while(id%2==0){
+			templevel++;
+			id = id>>1;
+		}
+		tl = templevel;
+
 	}
 
+	double t1, t2, pt, time;
 	MPI_Barrier(MPI_COMM_WORLD);
 	
-	double t1, t2, pt, time;
 	t1 = MPI_Wtime();
 	if(my_id == root_process){
 		for(int i=0;i<no_per_process;i++){
 			sum+=arr[i];
 		}
-		int id = my_id;
-		int templevel = 0;
+		// id = my_id;
+		templevel = 0;
 		while(templevel<levels){
 	// printf("test\n");
-			int partial_sum=0;
+			partial_sum=0;
 			MPI_Recv(&partial_sum, 1, MPI_INT, MPI_ANY_SOURCE, 0, MPI_COMM_WORLD, &status);
 			templevel++;
 			sum += partial_sum;
 		}
 	}	
 	else{
-		int partial_sum=0;
+		partial_sum=0;
 		for(int i=0;i<no_per_process;i++){
 			partial_sum+=arr[i];
 		}
-		int id = my_id;
-		int templevel=0;
-		while(id%2==0){
-			templevel++;
-			id = id>>1;
-		}
-		int tl = templevel;
+		
 		while(templevel>0){
-			int psum=0;
+			psum=0;
 			MPI_Recv(&psum, 1, MPI_INT, MPI_ANY_SOURCE, 0, MPI_COMM_WORLD, &status);
 			partial_sum += psum;
 			templevel--;

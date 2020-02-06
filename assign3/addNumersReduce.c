@@ -39,9 +39,9 @@ int main(int argc, char** argv){
   //       	partial_sum += arr1[i];
   //       }
 	}
-	MPI_Barrier(MPI_COMM_WORLD);
-
 	double t1, t2, pt, time;
+	MPI_Barrier(MPI_COMM_WORLD);
+	
 	t1 = MPI_Wtime();
 
 	for(int i=0;i<no_per_process;i++){
@@ -55,7 +55,7 @@ int main(int argc, char** argv){
 	MPI_Reduce(&pt, &time, 1, MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD);
 
     if(my_id == 0){
-  //   	printf("Total Sum: %d\n", sum);
+    	// printf("Total Sum: %d\n", sum);
 		// printf("Time elapsed is %lf \n", time);
 		printf("%lf\n", time);
     }
