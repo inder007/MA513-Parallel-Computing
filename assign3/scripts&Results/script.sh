@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FILE="results3.txt"
+FILE="finalResults.txt"
 
 # echo "N: " $1 >> $FILE
 echo "P:" $1 >> $FILE

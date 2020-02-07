@@ -74,7 +74,7 @@ int main(int argc, char** argv){
 
 	}
 
-	double t1, t2, pt, time;
+	double t1, t2, pt, time, pt2;
 	MPI_Barrier(MPI_COMM_WORLD);
 	
 	t1 = MPI_Wtime();
@@ -109,11 +109,13 @@ int main(int argc, char** argv){
 	}
 
 	t2 = MPI_Wtime();
-	pt = t2 - t1;
-	MPI_Reduce(&pt, &time, 1, MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD);
+	// pt = t2 - t1;
+	MPI_Reduce(&t1, &pt, 1, MPI_DOUBLE, MPI_MIN, root_process, MPI_COMM_WORLD);
+	MPI_Reduce(&t2, &pt2, 1, MPI_DOUBLE, MPI_MAX, root_process, MPI_COMM_WORLD);
 	if(my_id == root_process){
 		// printf("%d\n", sum);
 		// printf("Time elapsed is %lf \n", time);
+		time = pt2-pt;
 		printf("%lf\n", time);
 	}
 	MPI_Finalize();

@@ -34,7 +34,7 @@ int main(int argc, char** argv){
 		MPI_Recv(arr, no_per_process, MPI_INT, root_process, 0, MPI_COMM_WORLD, &status);
 	}
 
-	double t1, t2, pt, time;
+	double t1, t2, pt, time, pt2;
 	MPI_Barrier(MPI_COMM_WORLD);
 	
 	t1 = MPI_Wtime();
@@ -58,10 +58,12 @@ int main(int argc, char** argv){
 		MPI_Send(&partial_sum, 1, MPI_INT, root_process, 0, MPI_COMM_WORLD);
 	}
 	t2 = MPI_Wtime();
-	pt = t2 - t1;
-	MPI_Reduce(&pt, &time, 1, MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD);
+	MPI_Reduce(&t1, &pt, 1, MPI_DOUBLE, MPI_MIN, root_process, MPI_COMM_WORLD);
+	MPI_Reduce(&t2, &pt2, 1, MPI_DOUBLE, MPI_MAX, root_process, MPI_COMM_WORLD);
+	// pt = t2 - t1;
 	if(my_id == root_process){
 		// printf("Time elapsed is %lf \n", time);
+		time = pt2 - pt;
 		printf("%lf\n", time);
 	}
 	MPI_Finalize();
