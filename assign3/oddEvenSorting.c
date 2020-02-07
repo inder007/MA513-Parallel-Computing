@@ -67,10 +67,13 @@ int main(int argc, char** argv){
 	}
 
 	MPI_Scatter(arr, no_per_process, MPI_INT, arr1, no_per_process, MPI_INT, root_process, MPI_COMM_WORLD);
+	MPI_Barrier(MPI_COMM_WORLD);
+	double t1, t2, pt, time, pt2;
 
-	mergesort(0, no_per_process, arr1);
+	t1 = MPI_Wtime();
+	mergesort(0, no_per_process-1, arr1);
 
-	for(int i=0;i<no_per_process;i+=2){
+	for(int i=0;i<size;i+=2){
 		if(my_id%2==0 && my_id+1<size){
 			MPI_Recv(&arr1[no_per_process], no_per_process, MPI_INT, my_id+1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 			merge(0, no_per_process-1,2*no_per_process-1,arr1);
@@ -79,6 +82,7 @@ int main(int argc, char** argv){
         	MPI_Send(arr1, no_per_process, MPI_INT, my_id-1, 0, MPI_COMM_WORLD);
 		}
 		if(my_id%2==0 && my_id+1<size){
+
         	MPI_Send(&arr1[no_per_process], no_per_process, MPI_INT, my_id+1, 0, MPI_COMM_WORLD);
 		}
 		else{
@@ -92,9 +96,11 @@ int main(int argc, char** argv){
 			merge(0, no_per_process-1,2*no_per_process-1,arr1);
 		}
 		else if(my_id%2==0 && my_id-1>=0){
+
         	MPI_Send(arr1, no_per_process, MPI_INT, my_id-1, 0, MPI_COMM_WORLD);
 		}
 		if(my_id%2==1 && my_id+1<size){
+
         	MPI_Send(&arr1[no_per_process], no_per_process, MPI_INT, my_id+1, 0, MPI_COMM_WORLD);
 		}
 		else if(my_id%2==0 && my_id-1>=0){
@@ -103,17 +109,28 @@ int main(int argc, char** argv){
 		MPI_Barrier(MPI_COMM_WORLD);
 	}
 
+
 	if(root_process == my_id){
 		// printf("%d\n", my_id);
 		MPI_Gather(arr1, no_per_process, MPI_INT, arr, no_per_process, MPI_INT, root_process, MPI_COMM_WORLD);
-		for(int i=0;i<n;i++){
-			printf("%d ", arr[i]);
-		}
-		printf("\n");
+		// for(int i=0;i<n;i++){
+		// 	printf("%d ", arr[i]);
+		// }
+		// printf("\n");
 	}
 	else{
 		MPI_Gather(arr1, no_per_process, MPI_INT, NULL, 0, MPI_INT, root_process, MPI_COMM_WORLD);
 	}
+	
+	t2 = MPI_Wtime();
+	MPI_Reduce(&t1, &pt, 1, MPI_DOUBLE, MPI_MIN, root_process, MPI_COMM_WORLD);
+	MPI_Reduce(&t2, &pt2, 1, MPI_DOUBLE, MPI_MAX, root_process, MPI_COMM_WORLD);
+
+	if(my_id == root_process){
+		time = pt2 - pt;
+		printf("%lf\n", time);
+	}
+
 	MPI_Finalize();
 
 	return 0;
