@@ -111,12 +111,12 @@ int main(int argc, char** argv){
 
 
 	if(root_process == my_id){
-		// printf("%d\n", my_id);
+		printf("%d\n", my_id);
 		MPI_Gather(arr1, no_per_process, MPI_INT, arr, no_per_process, MPI_INT, root_process, MPI_COMM_WORLD);
-		// for(int i=0;i<n;i++){
-		// 	printf("%d ", arr[i]);
-		// }
-		// printf("\n");
+		for(int i=0;i<n;i++){
+			printf("%d ", arr[i]);
+		}
+		printf("\n");
 	}
 	else{
 		MPI_Gather(arr1, no_per_process, MPI_INT, NULL, 0, MPI_INT, root_process, MPI_COMM_WORLD);
