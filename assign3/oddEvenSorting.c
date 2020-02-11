@@ -30,6 +30,8 @@ void merge(int l, int mid, int h, int* arr){
 			arr[i] = b[k++];
 		}
 	}
+	free(a);
+	free(b);
 }
 
 void mergesort(int l, int h, int* arr){
@@ -110,17 +112,17 @@ int main(int argc, char** argv){
 	}
 
 
-	if(root_process == my_id){
-		printf("%d\n", my_id);
-		MPI_Gather(arr1, no_per_process, MPI_INT, arr, no_per_process, MPI_INT, root_process, MPI_COMM_WORLD);
-		for(int i=0;i<n;i++){
-			printf("%d ", arr[i]);
-		}
-		printf("\n");
-	}
-	else{
-		MPI_Gather(arr1, no_per_process, MPI_INT, NULL, 0, MPI_INT, root_process, MPI_COMM_WORLD);
-	}
+	MPI_Gather(arr1, no_per_process, MPI_INT, arr, no_per_process, MPI_INT, root_process, MPI_COMM_WORLD);
+	// if(root_process == my_id){
+	// 	printf("%d\n", my_id);
+	// 	for(int i=0;i<n;i++){
+	// 		printf("%d ", arr[i]);
+	// 	}
+	// 	printf("\n");
+	// }
+	// else{
+	// 	MPI_Gather(arr1, no_per_process, MPI_INT, NULL, 0, MPI_INT, root_process, MPI_COMM_WORLD);
+	// }
 	
 	t2 = MPI_Wtime();
 	MPI_Reduce(&t1, &pt, 1, MPI_DOUBLE, MPI_MIN, root_process, MPI_COMM_WORLD);
