@@ -45,7 +45,7 @@ int main(int argc, char** argv){
 
 	t1 = MPI_Wtime();
 
-	for(int k=0;k<5;k++){
+	for(int k=0;k<50;k++){
 		MPI_Allgather(b, no_of_rows, MPI_INT, x, no_of_rows, MPI_INT, MPI_COMM_WORLD);
 		for(int i=0;i<no_of_rows;i++){
 			b[i] = 0;

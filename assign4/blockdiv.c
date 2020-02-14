@@ -81,7 +81,7 @@ int main(int argc, char** argv){
 	double t1, t2, pt, time, pt2;
 	t1 = MPI_Wtime();
 
-	for(int k=0;k<5;k++){
+	for(int k=0;k<50;k++){
 		if(my_row_id == p_per_row-1 && my_id != size-1){
 			MPI_Send(x, row_per_process, MPI_INT, my_col_id, 0, row_comm);
 		}
