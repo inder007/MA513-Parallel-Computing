@@ -19,10 +19,11 @@ To Study the effect of cache. This folder contains following folders and files:
 
 This is assignment was to get familiar with the MPI syntax. It contains following files:
 
-1. **helloworld.c**
-2. **blockingAsyncMPI.c**
-3. **blockingSynchMPI.c**
-4. **unblockingSendReceive.c**
+1. **helloworld.c**: This file has basic code for MPI.
+2. **blockingAsyncMPI.c**: This file has code for blocking asynchronous send and receive.
+3. **blockingSynchMPI.c**: This file has code for blocking synchronous send and receive.
+4. **unblockingSendReceive.c**: This file has code for unblocking send and receive.
+5. **Assignment-2.pdf**: This is report containing the descriptions of the experiments done.
 
 ---
 
@@ -33,6 +34,21 @@ To implement addition of numbers through various parallel methods and compare th
 1. **addNumbersNaive.c** - Conatins code to add numbers where P0 first sends n/p items to each processor, then each PE adds n/p items, finally each PE sends partial sum to P0 which adds all these elements and return the sum.
 2. **addNumbersRecursive.c** - Contains code to add numbers where the distribution and collection of numbers is done hierarchially as discussed in class.
 3. **addNumersReduce.c** - Contains code to add numbers using inbuilt MPI_reduce to compute partial sum.
-
+4. **oddEvenSorting.c** - Contains the code for odd even sorting.
+5. **Assignment 3.pdf** - This contains the observations and results of the experiments conducted.
+6. **scripts&Results** - This folder contains the scripts used to get the results and files that hold the results.
 
 ---
+
+## Assignment 4
+
+To implement vector matrix multiplication using row division, column division and block division methods. This folder has the following files and folder:
+
+1. **rowdiv.c** - Contains the code to do the vector matrix multiplication using row division method.
+2. **coldiv.c** - Contains the code to do the vector matrix multiplication using column division method.
+2. **blockdiv.c** - Contains the code to do the vector matrix multiplication using block division method.
+3. **Assignment 4.pdf** - This contains the observations and results of the experiments conducted.
+4. **scripts&Results** - This folder contains the scripts used to get the results and files that hold the results.
+
+---
+
