@@ -1,0 +1,35 @@
+piCritical with different number of processes and 10000000000 of steps: 
+28.3357
+14.1711
+7.32178
+7.31018
+7.31789
+7.31174
+
+piReduce with different number of processes and 10000000000 of steps: 
+28.3302
+14.1684
+7.32635
+7.36204
+7.31345
+7.29848
+
+piCritical with different number of steps and 4 processes: 
+0.00015481
+0.00105391
+0.00873687
+0.0518898
+0.52165
+5.22786
+7.30476
+6.33414
+
+piReduce with different number of steps and 4 processes: 
+0.00021749
+0.00317279
+0.00879048
+0.0519559
+0.519224
+5.24639
+7.34433
+6.3391
