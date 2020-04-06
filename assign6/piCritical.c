@@ -30,7 +30,7 @@ int main(int argc, char **argv){
 	
 	}
 	
-	double pi = sum*oneStep;
+	double pi = sum;
 	end = omp_get_wtime();
 	// printf("%G\n", pi);
 	printf("%G\n", end - start);
