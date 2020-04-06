@@ -35,7 +35,7 @@ To implement addition of numbers through various parallel methods and compare th
 2. **addNumbersRecursive.c** - Contains code to add numbers where the distribution and collection of numbers is done hierarchially as discussed in class.
 3. **addNumersReduce.c** - Contains code to add numbers using inbuilt MPI_reduce to compute partial sum.
 4. **oddEvenSorting.c** - Contains the code for odd even sorting.
-5. **Assignment 3.pdf** - This contains the observations and results of the experiments conducted.
+5. **Assignment 3.pdf** - This contains the theory and observations of the experiments conducted.
 6. **scripts&Results** - This folder contains the scripts used to get the results and files that hold the results.
 
 ---
@@ -47,8 +47,36 @@ To implement vector matrix multiplication using row division, column division an
 1. **rowdiv.c** - Contains the code to do the vector matrix multiplication using row division method.
 2. **coldiv.c** - Contains the code to do the vector matrix multiplication using column division method.
 2. **blockdiv.c** - Contains the code to do the vector matrix multiplication using block division method.
-3. **Assignment 4.pdf** - This contains the observations and results of the experiments conducted.
+3. **Assignment 4.pdf** - This contains the theory and observations of the experiments conducted.
 4. **scripts&Results** - This folder contains the scripts used to get the results and files that hold the results.
 
 ---
 
+## Assignment 5
+
+To perform gaussian elimination on matrix and also to implement it's pipelined version. This folder has the following files and folder:
+
+1. **gaussionElimination.c** - Contains the code to normal Gaussian Elimination.
+2. **pipelinedGaussianElimination.c** - Contains the code to pipelined Gaussian Elimination.
+3. **Assignment 5.pdf** - This contains the theory and observations of the experiments conducted.
+4. **scripts&Results** - This folder contains the scripts used to get the results and files that hold the results.
+
+---
+
+## OpenMp-Tut
+
+It contains the hello world file to openMP and also serial mergesort code, which was written during lab time.
+
+---
+
+## Assignment 6
+
+Has the serial and two parallel code versions of calculation of pi. This folder has the following files and folder:
+
+1. **piSerial.c** - Contains serial code of calculation of pi.
+2. **piCritical.c** - Contains parallel code of calculation of pi using critical section for shared variable.
+3. **piReduce.c** - Contains the code of calculation of pi using reduce addition on the shared variable.
+4. **Assignment 6** - This contains the theory and observations of the experiments conducted.
+5. **scripts&Results** - This folder contains the scripts used to get the results and files that hold the results.
+
+---
