@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FILE="Results2.txt"
+FILE="Results3.txt"
 
 echo "piCritical with different number of processes and 10000000000 of steps: "
 echo "piCritical with different number of processes and 10000000000 of steps: " >> $FILE
