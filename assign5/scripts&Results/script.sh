@@ -9,7 +9,7 @@ echo "Gaussian Elimination"
 mpicc ../gaussionElimination.c
 # mpiexec -n $1 ../a.out $1 >> $FILE
 
-for i in {5..14}
+for i in {5..13}
 do
 	# echo $((1<<i))
 	mpiexec -n $1 ./a.out $((1<<i)) >> $FILE
@@ -21,7 +21,7 @@ echo "Pipelined Gaussian Elimination"
 mpicc ../pipelinedGaussianElimination.c
 # mpiexec -n $1 ../a.out $1 >> $FILE
 
-for i in {5..14}
+for i in {5..13}
 do
 	# echo $((1<<i))
 	mpiexec -n $1 ./a.out $((1<<i)) >> $FILE
