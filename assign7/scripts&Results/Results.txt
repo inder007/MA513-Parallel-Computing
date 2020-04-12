@@ -1,0 +1,16 @@
+School Method changing size of problem: 
+0.000733229
+0.00241978
+0.00911779
+0.0333559
+0.13334
+0.535747
+2.14428
+8.57661
+
+School Method changing number of threads: 
+18.8415
+9.44706
+8.56408
+8.54682
+8.5623
