@@ -1,17 +1,22 @@
 #include <bits/stdc++.h>
+#include <omp.h>
 using namespace std;
 
 int *a;
 int *b;
 int *c;
-clock_t *startTime;
-clock_t *endTime;
+// clock_t *startTime;
+// clock_t *endTime;
+
+double *startTime;
+double *endTime;
 
 int numElements;
 int num_threads;
 
 void* schoolMethod(void* vIdPtr){
-	auto start = clock();
+	// auto start = clock();
+	auto start = omp_get_wtime();
 	int* idPtr = (int*)vIdPtr;
 	int id = *idPtr;
 	// printf("sadas %d\n", *idPtr);
@@ -29,7 +34,8 @@ void* schoolMethod(void* vIdPtr){
 		}
 		c[i] = sum;
 	}
-	auto end = clock();
+	// auto end = clock();
+	auto end = omp_get_wtime();
 	startTime[id] = start;
 	endTime[id] = end;
 }
@@ -42,8 +48,11 @@ int main(int argc, char** argv){
 	a = new int[numElements];
 	b = new int[numElements];
 	c = new int[2*numElements];
-	startTime = new clock_t[num_threads];
-	endTime = new clock_t[num_threads];
+	// startTime = new clock_t[num_threads];
+	// endTime = new clock_t[num_threads];
+
+	startTime = new double[num_threads];
+	endTime = new double[num_threads];
 
 	int* threadId = new int[num_threads];
 
@@ -81,14 +90,15 @@ int main(int argc, char** argv){
 	// }
 	// printf("\n");
 
-	clock_t minStart = startTime[0], maxEnd = endTime[0];
+	// clock_t minStart = startTime[0], maxEnd = endTime[0];
+	double minStart = startTime[0], maxEnd = endTime[0];
 	for(int i=1;i<num_threads;i++){
 		minStart = min(minStart, startTime[i]);
 		maxEnd = max(maxEnd, endTime[i]);
 	}
 
-	double time_taken = double(maxEnd - minStart) / double(CLOCKS_PER_SEC); 
-
+	// double time_taken = double(maxEnd - minStart) / double(CLOCKS_PER_SEC); 
+	double time_taken = double(maxEnd - minStart);
 	cout<<time_taken<<setprecision(6)<<endl;
 
 	// pthread_join(NULL);
