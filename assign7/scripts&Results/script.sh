@@ -1,23 +1,35 @@
 #!/bin/bash
 
-FILE="Results.txt"
+FILE="Results2.txt"
 
-echo "School Method changing size of problem: "
-echo "School Method changing size of problem: " >> $FILE
+echo "School Method changing size of problem and threads: "
+echo "School Method changing size of problem and threads: " >> $FILE
 g++ -pthread -fopenmp ../schoolMethod.cpp
 
-for i in {9..16}
+for j in {0..4}
 do
-	./a.out $((1<<i)) 4 >> $FILE
+for i in {10..16}
+do
+	./a.out $((1<<i)) $((1<<j)) >> $FILE
+done
+echo "--" >> $FILE
+echo $((1<<j)) >> $FILE
+echo " " >> $FILE
 done
 
 echo "" >> $FILE
-echo "School Method changing number of threads: "
-echo "School Method changing number of threads: " >> $FILE
-g++ -pthread -fopenmp ../schoolMethod.cpp
+echo "Karatsuba Method changing number of threads and size: "
+echo "Karatsuba Method changing number of threads and size: " >> $FILE
+g++ -pthread -fopenmp ../parallelKaratsuba.cpp
 
-for i in {0..4}
+for j in {0..3}
 do
-	./a.out $((1<<16)) $((1<<i)) >> $FILE
+for i in {10..16}
+do
+	./a.out $((1<<i)) $((1<<j)) >> $FILE
+done
+echo "--" >> $FILE
+echo $((1<<j)) >> $FILE
+echo " " >> $FILE
 done
 
