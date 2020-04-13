@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+#include <omp.h>
 using namespace std;
 
 // int *a;
@@ -111,12 +112,19 @@ int main(int argc, char** argv){
 		b[i] = 1;
 	}
 
+	double startTime, endTime;
+    startTime = omp_get_wtime();
+    
 	vector<int> ans = multiplyPol(a, b);
 
-	for(int i=0;i<ans.size();i++){
-		cout<<ans[i]<<" ";
-	}    
+    endTime = omp_get_wtime();
+	cout<<endTime-startTime<<endl;
 
-	cout<<endl;
+
+	// for(int i=0;i<ans.size();i++){
+	// 	cout<<ans[i]<<" ";
+	// }    
+
+	// cout<<endl;
 	return 0;
 }
