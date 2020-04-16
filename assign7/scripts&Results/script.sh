@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FILE="Results2.txt"
+FILE="FinalResults.txt"
 
 echo "School Method changing size of problem and threads: "
 echo "School Method changing size of problem and threads: " >> $FILE

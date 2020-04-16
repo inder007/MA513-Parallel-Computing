@@ -34,14 +34,14 @@ void* multiplyPol(void* thread_args){
 	}
 
 	// vector<int> ah, bh, al, bl;
-	int *al = new int[n/2];
-	int *ah = new int[n/2];
-	int *bh = new int[n-n/2];
-	int *bl = new int[n-n/2];
- 	for(int i=0;i<n/2;i++){
-		al[i] = a[i];
-		bl[i] = a[i];
-	}
+	// int *al = new int[n/2];
+	int *ah = new int[(n+1)/2];
+	int *bh = new int[(n+1)/2];
+	// int *bl = new int[n-n/2];
+ // 	for(int i=0;i<n/2;i++){
+	// 	al[i] = a[i];
+	// 	bl[i] = a[i];
+	// }
 
 	for(int i=n/2;i<n;i++){
 		ah[i-n/2] = a[i];
@@ -51,8 +51,8 @@ void* multiplyPol(void* thread_args){
 	int *t1 = new int[(n+1)/2];
 	int *t2 = new int[(n+1)/2];
 	for(int i=0;i<n/2;i++){
-		t1[i] = al[i] + ah[i];
-		t2[i] = bl[i] + bh[i];
+		t1[i] = a[i] + ah[i];
+		t2[i] = b[i] + bh[i];
 	}
 
 	if(n%2){
@@ -61,11 +61,11 @@ void* multiplyPol(void* thread_args){
 	}
 
 	int *c1 = new int[n-1+n%2];
-	int *c2 = new int[n-1];
+	int *c2 = new int[n-1-n%2];
 	int *c3 = new int[n-1+n%2];
 
 	thread_data oneMultData = {ah, bh, c1, (n+1)/2, level+1};
-	thread_data twoMultData = {al, bl, c2, n/2, level+1};
+	thread_data twoMultData = {a, b, c2, n/2, level+1};
 	thread_data threeMultData = {t1, t2, c3, (n+1)/2, level+1};
 
 	pthread_t threads[3];
@@ -86,38 +86,45 @@ void* multiplyPol(void* thread_args){
 	}
 
 
-	for(int i=0;i<n-1;i++){
+	// cout<<"N: "<<n<<endl;
+	for(int i=0;i<n-1-n%2;i++){
+		// cout<<n<<" -- "<<i<<" "<<c3[i]<<" "<<c2[i]<<" "<<c1[i]<<endl;
 		c3[i] -= c1[i];
 		c3[i] -= c2[i];
 	}
 	if(n%2){
+		// cout<<n-1<<" "<<c3[n-1]<<" "<<c1[n-1]<<endl;
 		c3[n-1] -= c1[n-1];
+		c3[n-2] -= c1[n-2];
 	}
 
 
-	int size = n/2;
-	size += n/2;
+	// int size = n/2;
+	// size += n/2;
+	int size = n - n%2;
 	for(int i=0;i<2*n-1;i++){
 		c[i] = 0;
 	}
 
 
-	for(int i=0;i<n-1;i++){
+	for(int i=0;i<n-1-n%2;i++){
 		c[size+i] += c1[i];
 		c[i+n/2] += c3[i];
 		c[i] += c2[i];
 	}
 	if(n%2){
 		c[size+n-1] += c1[n-1];
+		c[size+n-2] += c1[n-2];
 		c[n/2+n-1] += c3[n-1];
+		c[n/2+n-2] += c3[n-2];
 	}
 
 	delete c1;
 	delete c2;
 	delete c3;
-	delete al;
+	// delete al;
 	delete ah;
-	delete bl;
+	// delete bl;
 	delete bh;
 	delete t1;
 	delete t2;
@@ -150,8 +157,6 @@ int main(int argc, char** argv){
 
 	endTime = omp_get_wtime();
 	cout<<endTime-startTime<<endl;
-
-	// vector<int> ans = *c;
 
 	// for(int i=0;i<2*numElements-1;i++){
 	// 	cout<<c[i]<<" ";
