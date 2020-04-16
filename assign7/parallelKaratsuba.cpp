@@ -68,16 +68,17 @@ void* multiplyPol(void* thread_args){
 	thread_data twoMultData = {a, b, c2, n/2, level+1};
 	thread_data threeMultData = {t1, t2, c3, (n+1)/2, level+1};
 
-	pthread_t threads[3];
+	pthread_t threads[2];
 
 	if(level <= maxLevel){
 		pthread_create(&threads[0], NULL, multiplyPol, (void*) &oneMultData);
 		pthread_create(&threads[1], NULL, multiplyPol, (void*) &twoMultData);
-		pthread_create(&threads[2], NULL, multiplyPol, (void*) &threeMultData);
+		// pthread_create(&threads[2], NULL, multiplyPol, (void*) &threeMultData);
 
 		pthread_join(threads[0], NULL);
 		pthread_join(threads[1], NULL);
-		pthread_join(threads[2], NULL);
+		// pthread_join(threads[2], NULL);
+		multiplyPol((void*) &threeMultData);
 	}
 	else{
 		multiplyPol((void*) &oneMultData);

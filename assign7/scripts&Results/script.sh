@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FILE="FinalResults.txt"
+FILE="FinalResults1.txt"
 
 echo "School Method changing size of problem and threads: "
 echo "School Method changing size of problem and threads: " >> $FILE
@@ -24,7 +24,7 @@ g++ -pthread -fopenmp ../parallelKaratsuba.cpp
 
 for j in {0..3}
 do
-for i in {10..16}
+for i in {10..17}
 do
 	./a.out $((1<<i)) $((1<<j)) >> $FILE
 done
