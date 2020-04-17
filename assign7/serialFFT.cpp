@@ -73,30 +73,23 @@ int main(int argc, char** argv){
 	complex<double>* abrc = new complex<double>[n];
 	complex<double>* bbrc = new complex<double>[n];
 
-	
-
-	// cout<<endl;
-
-	// cout<<pi<<endl;
-	// cout<<M_PI<<endl;
-
 
 	iterative_FFT(n, a, abrc, 1);
 	iterative_FFT(n, a, bbrc, 1);
+
 
 	complex<double>* y_prod = new complex<double>[n];
 	for(int i=0;i<n;i++){
 		y_prod[i] = abrc[i]*bbrc[i];
 	}
-
-
-	// complex<double>* abrc_interpolation = new complex<double>[n];
-	// complex<double>* bbrc_interpolation = new complex<double>[n];
+	for(int i=0;i<n;i++){
+		cout<<y_prod[i]<<" ";
+	}
+	cout<<endl;
 
 	complex<double>* interpolation = new complex<double>[n];
 
 	iterative_FFT(n, y_prod, interpolation, -1);
-	// iterative_FFT(n, abrc, abrc_interpolation, -1);
 
 	for(int i=0;i<n-1;i++){
 		cout<<real(interpolation[i])/n<<" ";
