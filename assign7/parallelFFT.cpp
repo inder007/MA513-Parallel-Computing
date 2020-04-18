@@ -1,10 +1,11 @@
 #include <bits/stdc++.h>
+#include <omp.h>
 using namespace std;
 
 const double pi = acos(-1);
 
 int numThreads;
-pthread_barrier_t* barriers;
+pthread_barrier_t barrier;
 
 struct thread_data{
 	complex<double>* a;
@@ -37,24 +38,26 @@ int rev(int a, int r){
 void iterative_FFT(int n, complex<double>* abrc, int flag, int id){
 	int r=log2(n);
 	int x = log2(numThreads);
-    
-	complex<double>* temp = new complex<double>[n];
-	for(int i=0;i<n;i++){
-		temp[i] = abrc[i];
-	}
-
-	for(int i=0;i<n;i++){
-		// cout<<rev(i, r)<<" ";
-		abrc[rev(i, r)] = temp[i]; 
-	}
-
-	delete temp;
 	int numPerProcessor = n/numThreads;
+    int start = id*numPerProcessor;
+    int end = (id+1)*numPerProcessor;
 
+	complex<double>* temp = new complex<double>[n];
+
+	for(int i=start;i<end;i++){
+		if(i<rev(i,r)){
+			swap(abrc[rev(i,r)], abrc[i]);
+		}
+	}
+
+
+	
+	pthread_barrier_wait(&barrier);
 	for(int s=1;s<=r-x;s++){
+
 		int m = (1<<s);
 		complex<double> wm = {cos((2*pi*flag)/m), sin(2*pi*flag/m)};
-		for(int k=id*(numPerProcessor);k<(id+1)*numPerProcessor;k+=m){
+		for(int k=start;k<end;k+=m){
 			complex<double> w(1,0);
 			for(int j=0;j<m/2;j++){
 				complex<double> t(w*abrc[k+j+m/2]);
@@ -68,70 +71,58 @@ void iterative_FFT(int n, complex<double>* abrc, int flag, int id){
 	}
 
 	for(int s=1;s<=x;s++){
+		// pthread_barrier_wait(&barrier);
 		int o = s+r-x;
 		int m = (1<<o);
 		int checkSide = (1<<s);
 		complex<double> wm = {cos((2*pi*flag)/m), sin(2*pi*flag/m)};
-		// complex<double> wm(cos(pi), sin(pi));
 		
 		complex<double> w(1,0);
+		complex<double> wperprocessor(1,0);
+		for(int p=0;p<numPerProcessor;p++){
+			wperprocessor *= wm;
+		}
 		if(id%checkSide>=checkSide/2){
-			// w = exp(wm, id-(checkSide/2));
-			for(int p=0;p<numPerProcessor*(id-checkSide/2);p++){
-				w *= wm;
+			for(int p=0;p<(id-checkSide/2);p++){
+				w *= wperprocessor;
 			}
 		}
 		else{
-			for(int p=0;p<numPerProcessor*(id);p++){
-				w *= wm;
+			for(int p=0;p<(id);p++){
+				w *= wperprocessor;
 			}
 		}
-		for(int k=id*numPerProcessor;k<(id+1)*numPerProcessor;k++){
-			// for(int j=0;j<m/2;j++){
-			//some barrier
-				// complex<double> t(w*abrc[k+m/2]);
-				// complex<double> u(abrc[k]);
-				// if(flag == -1)cout<<"check1"<<endl;
-				if(id%checkSide>=checkSide/2){
-					pthread_barrier_wait(&barriers[id-checkSide/2]);
-				}
-				else{
-					pthread_barrier_wait(&barriers[id]);
-				}
-				// if(flag == -1)cout<<"check2"<<endl;
-				complex<double> t;
-				complex<double> u;
-				if(id%checkSide>=checkSide/2){
-					t = w*abrc[k];
-					u = abrc[k-m/2];
-					// cout<<t<<" "<<u<<" -- "<<id<<" == "<<(id-checkSide/2)<<endl;
-				}
-				else{
-					u = abrc[k];
-					t = w*abrc[k+m/2];
-					// cout<<t<<" "<<u<<" -- "<<id<<" == "<<(id+checkSide/2)<<endl;
-				}
-				// if(flag == -1)cout<<"check3"<<endl;
-				if(id%checkSide>=checkSide/2){
-					pthread_barrier_wait(&barriers[id-checkSide/2]);
-				}
-				else{
-					pthread_barrier_wait(&barriers[id]);
-				}
-				// if(flag == -1)cout<<"check4"<<endl;
-				if(id%checkSide>=checkSide/2){
-					abrc[k] = u - t;
-				}
-				else{
-					abrc[k] = u + t;
-				}
-				w = w*wm;
+		pthread_barrier_wait(&barrier);
+		for(int k=start;k<end;k++){
+			
+			complex<double> t;
+			complex<double> u;
+			if(id%checkSide>=checkSide/2){
+				t = w*abrc[k];
+				u = abrc[k-m/2];
+			}
+			else{
+				u = abrc[k];
+				t = w*abrc[k+m/2];
+			}
 
-			// }
+			if(id%checkSide>=checkSide/2){
+				temp[k] = u-t;
+			}
+			else{
+				temp[k] = u+t;
+			}
+			w = w*wm;
+
+		}
+		pthread_barrier_wait(&barrier);
+		for(int i=start;i<end;i++){
+			abrc[i] = temp[i];
 		}
 
 	}
 
+	delete temp;
 }
 
 void* job(void* thread_args){
@@ -142,30 +133,19 @@ void* job(void* thread_args){
 	complex<double>* c = data->c;
 	int id = data->id;
 
-	// cout<<id<<"sad"<<endl;
 	int numPerProcessor = n/numThreads;
 
 	iterative_FFT(n, a, 1, id);
-	// cout<<"eweea"<<endl;
 	iterative_FFT(n, b, 1, id);
-	// cout<<"asd"<<endl;
 
 
 	for(int i=id*numPerProcessor;i<(id+1)*numPerProcessor;i++){
 		c[i] = a[i]*b[i];
 	}
-	// cout<<"qwe"<<endl;
-	// for(int i=id*numPerProcessor;i<(id+1)*numPerProcessor;i++){
-	// 	cout<<i<<" "<<c[i]<<endl;
-	// }
-	// cout<<endl;
+
+	pthread_barrier_wait(&barrier);
 
 	iterative_FFT(n, c, -1, id);
-	// cout<<id<<"uio"<<endl;
-	// for(int i=id*numPerProcessor;i<(id+1)*numPerProcessor;i++){
-	// 	cout<<real(c[i])/n<<" ";
-	// }
-	// cout<<endl;
 }
 
 
@@ -191,19 +171,20 @@ int main(int argc, char** argv){
 		
 	}
 
-
-
 	// job((void*) &args);
 
 	pthread_t threads[numThreads];
-	barriers = new pthread_barrier_t[numThreads];
 
 	thread_data* threadargs = new thread_data[numThreads];
 
 	for(int i=0;i<numThreads;i++){
 		threadargs[i] = {a, b, c, n, i};
-		pthread_barrier_init(&barriers[i], NULL, 2);
 	}
+
+	pthread_barrier_init(&barrier, NULL, numThreads);
+
+	double startTime, endTime;
+    startTime = omp_get_wtime();
 
 	for(int i=0;i<numThreads;i++){
 		// thread_data args = {a, b, c, n, threadIds[i]};
@@ -219,10 +200,24 @@ int main(int argc, char** argv){
 			cout<<"join error"<<endl;
 		}
 	}
-	for(int i=0;i<n-1;i++){
-		cout<<real(c[i])/n<<" ";
-	}
-	cout<<endl;
+
+	endTime = omp_get_wtime();
+	cout<<endTime-startTime<<endl;
+
+	// for(int i=0;i<n-1;i++){
+	// 	cout<<real(a[i])<<" ";
+	// }
+	// cout<<endl;
+
+	// for(int i=0;i<n-1;i++){
+	// 	cout<<real(b[i])<<" ";
+	// }
+	// cout<<endl;
+
+	// for(int i=0;i<n-1;i++){
+	// 	cout<<real(c[i])/n<<" ";
+	// }
+	// cout<<endl;
 
 	return 0;
 }
