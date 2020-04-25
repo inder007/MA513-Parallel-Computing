@@ -1,84 +1,106 @@
 #include <bits/stdc++.h>
+#include<atomic>
+
 using namespace std;
 
 struct node;
 
 struct pointer{
 	node* ptr;
-	uint count;
+	int count;
+
+	pointer() : ptr{NULL}, count{0} {}
+	pointer(node* _ptr) : ptr{_ptr}, count{0} {}
+	pointer(node* _ptr, int _count) :  ptr{_ptr}, count{_count} {}
+
+	bool operator ==(const pointer &other) const {
+        return ptr == other.ptr && count == other.count;
+    }    
 };
 
 
 struct node{
 	int value;
-	pointer* next;
+	atomic<pointer> next;
+
+	node() : next{pointer{}} {}
+	node(int _value) : value{_value}, next{pointer{}} {}
 };
 
 
 struct myqueue{
-	pointer* head;
-	pointer* tail;
+	atomic<pointer> head;
+	atomic<pointer> tail;
+	myqueue() : head{new node{}}, tail{head.load().ptr} {}
 };
 
-void initialize(myqueue *q){
-	node* temp = new node;
-	temp->next=new pointer;
-	temp->next->ptr = NULL;
-	q->head->ptr = q->tail->ptr = temp;
-}
 
 void enqueue(myqueue *q, int value){
-	node* temp = new node;
-	temp->value = value;
-	temp->next = new pointer;
-	temp->next->ptr = NULL;
-	pointer* tail;
+	node* temp = new node(value);
+	// temp->value = value;
+	// temp->next.ptr = NULL;
+	pointer tail;
 	while(1){
-		tail = q->tail;
-		pointer* next = tail->ptr->next;
+		tail = q->tail.load();
+		pointer next = tail.ptr->next;
 		if(tail == q->tail){
-			if(next->ptr == NULL){
-				if(__sync_bool_compare_and_swap(&tail->ptr->next,next,new pointer({temp, next->count+1}))){
+			if(next.ptr == NULL){
+				if(tail.ptr->next.compare_exchange_weak(next, pointer{temp, next.count+1})){
 					break;
 				}
 			}
 			else{
-				__sync_bool_compare_and_swap(&q->tail,tail,new pointer({next->ptr, tail->count+1}));	
+				q->tail.compare_exchange_weak(tail, pointer{next.ptr, tail.count+1});
 			}
 		}
 	}
 
-	__sync_bool_compare_and_swap(&q->tail,tail,new pointer({temp, tail->count+1}));	
+	q->tail.compare_exchange_weak(tail, pointer{temp, tail.count+1});
 }
 
 
 bool dequeue(myqueue* q, int* value){
-	pointer* head;
+	pointer head;
 	while(1){
-		head = q->head;
-		pointer* tail = q->tail;
-		pointer *next = head->ptr->next;
+		head = q->head.load();
+		pointer tail = q->tail.load();
+		pointer next = head.ptr->next;
 		if(head == q->head){
-			if(head->ptr == tail->ptr){
-				if(next->ptr == NULL){
+			if(head.ptr == tail.ptr){
+				if(next.ptr == NULL){
 					return 0;
 				}
-				__sync_bool_compare_and_swap(&q->tail,tail,new pointer({next->ptr, tail->count+1}));
+				q->tail.compare_exchange_weak(tail, pointer{next.ptr, tail.count+1});
 			}
 			else{
-				*value = next->ptr->value;
-				if(__sync_bool_compare_and_swap(&q->head,head,new pointer({next->ptr, head->count+1}))){
+				*value = next.ptr->value;
+				if(q->head.compare_exchange_weak(head, pointer{next.ptr, head.count+1})){
 					break;
 				}
 			}
 		}
 	}
-	free(head->ptr);
+	free(head.ptr);
 	return 1;
 }
 
-int main(){
+int main(int argc, char** argv){
 	
-    
+	myqueue* q = new myqueue;
+	
+	// int numProducers = argv[1];
+	// int numConsumers = argv[2];    
+
+	enqueue(q, 1);
+	enqueue(q, 2);
+	enqueue(q, 3);
+	enqueue(q, 4);
+	int ans;
+	cout<<q->tail.load().count<<endl;
+	dequeue(q, &ans);
+	enqueue(q, 5);
+	cout<<q->tail.load().count<<endl;
+	dequeue(q, &ans);
+	cout<<q->tail.load().count<<endl;
 	return 0;
 }
