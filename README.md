@@ -80,3 +80,43 @@ Has the serial and two parallel code versions of calculation of pi. This folder 
 5. **scripts&Results** - This folder contains the scripts used to get the results and files that hold the results.
 
 ---
+
+## Assignment 7
+
+Solving the problem of multiplying two polynomials in parallel using 3 different methods:
+1. School Method
+2. Karatsuba's Algorithm
+3. FFT Divide and Conquer Algorithm
+The folder assign7/ contains following files and folders:
+
+1. **schoolMethod.cpp** - Parallelising School Method.
+2. **serialKaratsuba.cpp** - Serial code of Karatsuba algorithm.
+3. **parallelKaratsuba.cpp** - Parallel code of Karatsuba algorithm.
+4. **serialFFT.cpp** - Serial code of FFT divide and conquer algorithm.
+5. **parallelFFT.cpp** - Parallel code of FFT divide and conquer algorithm.
+6. **Assignment 7** - This contains the theory and observations of the experiments conducted.
+7. **scripts&Results** - This folder contains the scripts used to get the results and files that hold the results.
+
+---
+
+## Assignment 8
+
+Parallelising producer consumer problem with multiple consumers and multiple producers and a single bounded queue
+The folder assign8/ contains following files and folders:
+
+1. **queue.cpp** - Contains the parallel code of producer consumer problem.
+2. **Assignment 8** - This contains the theory and observations of the experiments conducted.
+3. **scripts&Results** - This folder contains the scripts used to get the results and files that hold the results.
+
+---
+
+## Assignment 9
+
+Parallelising the code of Word acceptance on the reduced DFA.
+The folder assign9/ contains following files and folders:
+
+1. **paralleldfa.cpp** - Contains the code of given problem.
+2. **Assignment 9** - This contains the theory and observations of the experiments conducted.
+3. **scripts&Results** - This folder contains the scripts used to get the results and files that hold the results.
+
+---
