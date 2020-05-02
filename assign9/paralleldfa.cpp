@@ -3,38 +3,20 @@
 using namespace std;
 
 
-int numThreads;
-int numStates;
-int characters;
-int numFinalStates;
-int* finalStates;
-int startState;
-int** L;
-string s;
-
-bool trivialReduction(){
-	int state = startState;
-	for(int i=0;i<numThreads;i++){
-		state = L[i][state];
-	}
-
-	// if(finalStates[stat])
-	return finalStates[state];
-
-}
-
-bool binaryReduction(){
-	int steps = log2(numThreads);
-	for(int m=1;m<steps;m++){
-		// int nextState = (1<<m);
-		// if(numThreads%(1<<m) == 0 && ())
-	}
-
-}
-
 int main(int argc, char** argv){
+	int numThreads;
+	int numStates;
+	int characters;
+	int numFinalStates;
+	int* finalStates;
+	int startState;
+	int** L;
+	char* s;
 	numThreads = atoi(argv[1]);
-	int whichReduction = atoi(argv[2]);
+	int stringLength = atoi(argv[2]);
+	int whichReduction = atoi(argv[3]);
+
+	srand ( time(NULL) );
 
 	// cout<<"No of states: ";
 	cin>>numStates;
@@ -59,7 +41,11 @@ int main(int argc, char** argv){
 		finalStates[r] = 1;
 	}
 
-	cin>>s;
+	// cin>>s;
+	s = new char[stringLength];
+	for(int i=0;i<stringLength;i++){
+		s[i] = 'a' + int(rand()%characters);
+	}
 
 	L = new int*[numThreads];
 	for(int i=0;i<numThreads;i++){
@@ -70,19 +56,20 @@ int main(int argc, char** argv){
 	}
 
 	omp_set_num_threads(numThreads);
-	int sSize = s.size();
-	int lenPerThread = sSize/numThreads;
+	int lenPerThread = stringLength/numThreads;
 	bool ans;
-	double start, end;
-	start = omp_get_wtime();
+	double startTime, endTime;
+	startTime = omp_get_wtime();
 
 	#pragma omp parallel
 	{
-		int id = omp_get_thread_num();
+		int id, st, en;
+		id = omp_get_thread_num();
+		// cout<<id<<endl;
 
-		int st = id*lenPerThread;
-		int end = (id+1)*lenPerThread;
-		for(int i=st;i<end;i++){
+		st = id*lenPerThread;
+		en = st + lenPerThread;
+		for(int i=st;i<en;i++){
 			for(int j=0;j<numStates;j++){
 				L[id][j] = transition[L[id][j]][s[i]-'a'];
 			}
@@ -96,10 +83,8 @@ int main(int argc, char** argv){
 		int state = startState;
 		for(int i=0;i<numThreads;i++){
 			state = L[i][state];
-			// cout<<state<<endl;
 		}
 
-	// if(finalStates[stat])
 		ans = finalStates[state];
 	}
 	else{
@@ -121,8 +106,8 @@ int main(int argc, char** argv){
 	}
 
 	// cout<<ans<<endl;
-	end = omp_get_wtime();
-	cout<<(end-start)<<endl;
+	endTime = omp_get_wtime();
+	cout<<(endTime-startTime)<<endl;
     
 	return 0;
 }
