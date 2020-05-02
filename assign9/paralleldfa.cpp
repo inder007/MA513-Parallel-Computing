@@ -69,11 +69,20 @@ int main(int argc, char** argv){
 
 		st = id*lenPerThread;
 		en = st + lenPerThread;
-		for(int i=st;i<en;i++){
-			for(int j=0;j<numStates;j++){
-				L[id][j] = transition[L[id][j]][s[i]-'a'];
+		if(id == 0){
+			// int state = startState;
+			for(int i=st;i<en;i++){
+				L[id][startState] = transition[L[id][startState]][s[i]-'a'];
 			}
 		}
+		else{
+			for(int i=st;i<en;i++){
+				for(int j=0;j<numStates;j++){
+					L[id][j] = transition[L[id][j]][s[i]-'a'];
+				}
+			}
+		}
+
 	}
 
 	#pragma omp barrier

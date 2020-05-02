@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FILE="results2.txt"
+FILE="results4.txt"
 
 echo "changing number of number of threads and size of string for trivial reduction: "
 echo "changing number of number of threads and size of string for trivial reduction: " >> $FILE
@@ -15,7 +15,7 @@ echo "----"
 for j in {22..30}
 do
 	echo $((1<<j))
-	./a.out $((1<<i)) $((1<<j)) 0 < 3DFAinput.txt >> $FILE
+	./a.out $((1<<i)) $((1<<j)) 0 < sampleInput.txt >> $FILE
 done
 echo " " >> $FILE
 echo " "
@@ -36,7 +36,7 @@ echo "----"
 for j in {22..30}
 do
 	echo $((1<<j))
-	./a.out $((1<<i)) $((1<<j)) 1 < 3DFAinput.txt >> $FILE
+	./a.out $((1<<i)) $((1<<j)) 1 < sampleInput.txt >> $FILE
 done
 echo " " >> $FILE
 echo " "
